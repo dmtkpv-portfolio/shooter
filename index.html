@@ -1,0 +1,794 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Village - No JS Game</title>
+<style type="text/css">
+body {
+	margin:0;
+	cursor:crosshair;
+	background:#000;
+}
+h1 {
+	top:10px;
+	left:420px;
+	position:absolute;
+	color:#F60;
+	text-shadow:0 0 5px #F60;
+	margin:0;
+	text-transform:uppercase;
+	font-size:120%;
+}
+div {
+	position:absolute;
+}
+input {
+	display:none;
+}
+label {
+	position:absolute;	
+}
+#wrapper {
+	position:absolute;
+	height:480px;
+	width:800px;
+	top:50%; left:50%;
+	margin-top:-240px;
+	margin-left:-400px;
+	background:url(images/bg.png);
+	overflow:hidden;
+	box-shadow:0 0 10px #FFF;
+}
+#progress {
+	width:100%;
+	z-index:20;
+	background:rgba(0,0,0,.70);
+}
+#progress span {
+	position:relative;
+	display:block;
+	float:left;
+	height:30px;
+	width:30px;
+	margin:5px;
+	outline:1px solid #666;
+}
+#progress img {
+	height:100%; width:100%;
+}
+#progress span div {
+	position:absolute;
+	top:0; left:0;
+	height:100%; width:100%;
+	opacity:1;
+	background:url(images/delete.png);
+	background-size:100% 100%;
+	opacity:0;
+}
+.loc {-webkit-transition:background-color 0.3s ease; -moz-transition:background-color 0.3s ease;}
+.loc:hover {background-color:rgba(0,255,0,.30);}
+
+#timer {
+	height:20px;
+	width:280px;
+	background:#F60;
+	top:10px; right:30px;
+}
+#timer div {
+	top:0; left:0;
+	height:100%; width:100%;
+	background:#0F0;
+	-webkit-animation:time 15s 3s forwards linear;
+	-moz-animation:time 15s 3s forwards linear;
+}
+@-webkit-keyframes time {
+	from {width:100%;}
+	to  {width:0;}
+}
+@-moz-keyframes time {
+	from {width:100%;}
+	to  {width:0;}
+}
+/*------------------SKY------------------*/
+#sky_1 {
+	top:0; left:0;
+	height:193px; width:530px;
+	background:url(images/sky/sky_1.png);
+	z-index:1;
+	-webkit-animation: sky_1 100s linear infinite;
+	-moz-animation: sky_1 100s linear infinite;
+}
+@-webkit-keyframes sky_1 {
+	0%   {left:-530px;}
+	100% {left:800px;}
+}
+@-moz-keyframes sky_1 {
+	0%   {left:-530px;}
+	100% {left:800px;}
+}
+#sky_2 {
+	top:0; left:530px;
+	height:193px; width:614px;
+	background:url(images/sky/sky_2.png);
+	z-index:1;
+	-webkit-animation: sky_2 100s -50s linear infinite;	
+	-moz-animation: sky_2 100s -50s linear infinite;	
+}
+@-webkit-keyframes sky_2 {
+	0%   {left:-614px;}
+	100% {left:800px;}
+}
+@-moz-keyframes sky_2 {
+	0%   {left:-614px;}
+	100% {left:800px;}
+}
+#sky_shadow {
+	height:75px; width:800px;
+	top:118px; left:0;
+	background:url(images/sky/sky_shadow.png);
+	z-index:2;
+}
+#cloud_1 {
+	width:114px; height:38px;
+	top:50px; left:450px;
+	background:url(images/sky/cloud_1.png);
+	-webkit-animation:clouds 20s -17s linear infinite;	
+	-moz-animation:clouds 20s -17s linear infinite;	
+	z-index:3;
+}
+#cloud_2 {
+	width:86px; height:34px;
+	top:80px; left:650px;
+	background:url(images/sky/cloud_2.png);
+	-webkit-animation:clouds 20s -14s linear infinite;	
+	-moz-animation:clouds 20s -14s linear infinite;
+	z-index:3;
+}
+#cloud_3 {
+	width:125px; height:38px;
+	top:110px; left:300px;
+	background:url(images/sky/cloud_3.png);
+	-webkit-animation:clouds 20s -8s linear infinite;
+	-moz-animation:clouds 20s -8s linear infinite;
+	z-index:3;
+}
+#cloud_4 {
+	width:72px; height:27px;
+	top:30px; left:150px;
+	background:url(images/sky/cloud_4.png);
+	-webkit-animation:clouds 20s -4s linear infinite;
+	-moz-animation:clouds 20s -4s linear infinite;
+	z-index:3;
+}
+#cloud_5 {
+	width:27px; height:11px;
+	top:100px; left:50px;
+	background:url(images/sky/cloud_5.png);
+	-webkit-animation:clouds 20s linear infinite;
+	-moz-animation:clouds 20s linear infinite;
+	z-index:3;
+}
+@-webkit-keyframes clouds {
+	from {left:-125px;}
+	to   {left:800px;}
+}
+@-moz-keyframes clouds {
+	from {left:-125px;}
+	to   {left:800px;}
+}
+/*------------------LOCATIONS------------------*/
+#arena {
+	width:230px; height:207px;
+	top:69px; left:285px;
+	background-image:url(images/locations/arena.png);
+	z-index:4;
+}
+#tavern {
+	width:203px; height:207px;
+	top:77px; left:515px;
+	background-image:url(images/locations/tavern.png);
+	z-index:6;
+}
+#guard {
+	width:206px; height:226px;
+	top:71px; left:79px;
+	background-image:url(images/locations/guard.png);
+	z-index:6;
+}
+#house_1 {
+	width:128px; height:143px;
+	top:170px; left:-78px;
+	background-image:url(images/locations/house_1.png);
+	z-index:8;
+}
+#house_2 {
+	width:151px; height:145px;
+	top:157px; right:-88px;
+	background-image:url(images/locations/house_2.png);
+	z-index:8;
+}
+#fountain {
+	width:223px; height:93px;
+	top:274px; left:288px;
+	background-image:url(images/locations/fountain.png);
+	z-index:10;
+}
+#board {
+	width:118px; height:113px;
+	top:297px; left:152px;
+	background-image:url(images/locations/board.png);
+	z-index:12;
+}
+#house_3 {
+	width:278px; height:67px;
+	bottom:0px; left:-80px;
+	background-image:url(images/locations/house_3.png);
+	z-index:14;
+}
+#house_4 {
+	width:240px; height:107px;
+	bottom:0px; left:378px;
+	background-image:url(images/locations/house_4.png);
+	z-index:14;
+}
+
+/*--------------effects-------------*/
+#blood {
+	height:40px;
+	width:40px;
+	background:url(images/blood.png);
+	opacity:0;
+}
+#container {
+	height:120px;
+	width:60px;
+}
+#container:hover {
+	cursor:crosshair;
+}
+.right {
+	-webkit-transform-origin:0 100%;
+	-moz-transform-origin:0 100%;
+}
+.left {
+	-webkit-transform-origin:100% 100%;
+	-moz-transform-origin:100% 100%;
+}
+@-webkit-keyframes right {
+	from {-webkit-transform:rotateZ(0deg);}
+	to   {-webkit-transform:rotateZ(-90deg);}
+}
+@-moz-keyframes right {
+	from {-moz-transform:rotateZ(0deg);}
+	to   {-moz-transform:rotateZ(-90deg);}
+}
+@-webkit-keyframes left {
+	from {-webkit-transform:rotateZ(0deg);}
+	to   {-webkit-transform:rotateZ(90deg);}
+}
+@-moz-keyframes left {
+	from {-moz-transform:rotateZ(0deg);}
+	to   {-moz-transform:rotateZ(90deg);}
+}
+/*--------------enemy_1-------------*/
+#enemy_1 {
+	top:285px; left:200px; z-index:11;	
+	-webkit-animation:enemy_1 5s ease-in-out infinite;
+	-moz-animation:enemy_1 5s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_1 {
+      0% {left:200px;}
+     20% {left:150px;}
+	 40% {left:150px;}
+	 60% {left:220px;}
+	 80% {left:100px;}
+	100% {left:200px;}	  
+}
+@-moz-keyframes enemy_1 {
+      0% {left:200px;}
+     20% {left:150px;}
+	 40% {left:150px;}
+	 60% {left:220px;}
+	 80% {left:100px;}
+	100% {left:200px;}	  
+}
+#enemy_1 #container {
+	background-image:url(images/charecters/elf_m_1.png);
+}
+#e1:checked ~ #enemy_1 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e1:checked ~ #enemy_1 .right {
+	-webkit-animation:right 0.5s ease; 
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e1:checked ~ #enemy_1 #blood {opacity:1; top:20px;}
+#e1:checked ~ #progress #p01 div {opacity:1;}
+
+/*--------------enemy_2-------------*/
+#enemy_2 {
+	top:360px; left:10px; z-index:13;	
+	-webkit-animation:enemy_2 5s ease-in-out infinite;
+	-moz-animation:enemy_2 5s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_2 {
+      0% {top:500px; left:10px;}
+	 25% {top:360px; left:10px;}
+     50% {top:360px; left:100px;}
+	 75% {top:400px; left:150px;}
+	100% {top:500px; left:150px;}
+}
+@-moz-keyframes enemy_2 {
+      0% {top:500px; left:10px;}
+	 25% {top:360px; left:10px;}
+     50% {top:360px; left:100px;}
+	 75% {top:400px; left:150px;}
+	100% {top:500px; left:150px;}	  
+}
+#enemy_2 #container {
+	background-image:url(images/charecters/elf_m_2.png);
+}
+#e2:checked ~ #enemy_2 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e2:checked ~ #enemy_2 .left {
+	-webkit-animation:left 0.5s ease;
+	-webkit-transform:rotateZ(90deg); 
+	-moz-animation:left 0.5s ease; 
+	-moz-transform:rotateZ(90deg);
+}
+#e2:checked ~ #enemy_2 #blood {opacity:1; left:20px;}
+#e2:checked ~ #progress #p02 div {opacity:1;}
+
+/*--------------enemy_3-------------*/
+#enemy_3 {
+	top:330px; left:550px; z-index:13;	
+	-webkit-animation:enemy_3 4s -1s ease-in-out infinite;
+	-moz-animation:enemy_3 4s -1s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_3 {
+      0% {top:500px; left:550px;}
+	 25% {top:330px; left:550px;}
+	 50% {top:330px; left:350px;}
+     75% {top:330px; left:400px;}
+	100% {top:500px; left:400px;}
+}
+@-moz-keyframes enemy_3 {
+      0% {top:500px; left:550px;}
+	 25% {top:330px; left:550px;}
+	 50% {top:330px; left:350px;}
+     75% {top:330px; left:400px;}
+	100% {top:500px; left:400px;}  
+}
+#enemy_3 #container {
+	background-image:url(images/charecters/elf_m_3.png);
+}
+#e3:checked ~ #enemy_3 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e3:checked ~ #enemy_3 .right {
+	-webkit-animation:right 0.5s ease;
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e3:checked ~ #enemy_3 #blood {opacity:1; top:20px; left:10px;}
+#e3:checked ~ #progress #p03 div {opacity:1;}
+
+/*--------------enemy_4-------------*/
+#enemy_4 {
+	top:390px; left:800px; z-index:13;	
+	-webkit-animation:enemy_4 3s ease-in-out infinite;
+	-moz-animation:enemy_4 3s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_4 {
+      0% {left:800px;}
+	100% {left:540px;}
+}
+@-moz-keyframes enemy_4 {
+      0% {left:800px;}
+	100% {left:540px;}
+}
+#enemy_4 #container {
+	background-image:url(images/charecters/elf_m_4.png);
+}
+#e4:checked ~ #enemy_4 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e4:checked ~ #enemy_4 .left {
+	-webkit-animation:left 0.5s ease;
+	-webkit-transform:rotateZ(90deg); 
+	-moz-animation:left 0.5s ease; 
+	-moz-transform:rotateZ(90deg);
+}
+#e4:checked ~ #enemy_4 #blood {opacity:1; left:10px;}
+#e4:checked ~ #progress #p04 div {opacity:1;}
+
+/*--------------enemy_5-------------*/
+#enemy_5 {
+	top:140px; left:550px; z-index:5;
+	-webkit-animation:enemy_5 4s ease-in-out infinite;
+	-moz-animation:enemy_5 4s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_5 {
+      0% {left:550px;}
+	 50% {left:480px;}
+	100% {left:550px;}
+}
+@-moz-keyframes enemy_5 {
+      0% {left:550px;}
+	 50% {left:480px;}
+	100% {left:550px;}
+}
+#enemy_5 #container {
+	background-image:url(images/charecters/elf_w_1.png);
+}
+#e5:checked ~ #enemy_5 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e5:checked ~ #enemy_5 .left {
+	-webkit-animation:left 0.5s ease;
+	-webkit-transform:rotateZ(90deg); 
+	-moz-animation:left 0.5s ease; 
+	-moz-transform:rotateZ(90deg);
+}
+#e5:checked ~ #enemy_5 #blood {opacity:1; left:10px;}
+#e5:checked ~ #progress #p05 div {opacity:1;}
+
+/*--------------enemy_6-------------*/
+#enemy_6 {
+	top:160px; left:750px; z-index:7;
+	-webkit-animation:enemy_6 4s -2s ease-in-out infinite;
+	-moz-animation:enemy_6 4s -2s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_6 {
+      0% {top:160px; left:750px;}
+	 25% {top:160px; left:700px;}
+	 50% {top:200px; left:680px;}
+	 75% {top:160px; left:700px;}
+	100% {top:160px; left:750px;}
+}
+@-moz-keyframes enemy_6 {
+      0% {top:160px; left:750px;}
+	 25% {top:160px; left:700px;}
+	 50% {top:200px; left:680px;}
+	 75% {top:160px; left:700px;}
+	100% {top:160px; left:750px;}
+}
+#enemy_6 #container {
+	background-image:url(images/charecters/elf_w_2.png);
+}
+#e6:checked ~ #enemy_6 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e6:checked ~ #enemy_6 .right {
+	-webkit-animation:right 0.5s ease;
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e6:checked ~ #enemy_6 #blood {opacity:1; top:30px;}
+#e6:checked ~ #progress #p06 div {opacity:1;}
+
+/*--------------enemy_7-------------*/
+#enemy_7 {
+	top:150px; left:60px; z-index:5;
+	-webkit-animation:enemy_7 5s ease-in-out infinite;
+	-moz-animation:enemy_7 5s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_7 {
+      0% {left:-60px;}
+	100% {left:100px;}
+}
+@-moz-keyframes enemy_7 {
+      0% {left:-60px;}
+	100% {left:100px;}
+}
+#enemy_7 #container {
+	background-image:url(images/charecters/elf_w_3.png);
+}
+#e7:checked ~ #enemy_7 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e7:checked ~ #enemy_7 .right {
+	-webkit-animation:right 0.5s ease;
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e7:checked ~ #enemy_7 #blood {opacity:1; top:10px; left:10px;}
+#e7:checked ~ #progress #p07 div {opacity:1;}
+
+/*--------------enemy_8-------------*/
+#enemy_8 {
+	top:30px; left:300px; z-index:3;
+	-webkit-animation:enemy_8 5s ease-in-out infinite;
+	-moz-animation:enemy_8 5s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_8 {
+      0% {top:70px; left:300px;}
+     20% {top:30px; left:300px;}
+	 40% {top:70px; left:300px;}
+	 60% {top:70px; left:430px;}
+	 80% {top:10px; left:430px;}	  
+	100% {top:70px; left:430px;}
+}
+@-moz-keyframes enemy_8 {
+      0% {top:70px; left:300px;}
+     20% {top:30px; left:300px;}
+	 40% {top:70px; left:300px;}
+	 60% {top:70px; left:430px;}
+	 80% {top:10px; left:430px;}	  
+	100% {top:70px; left:430px;}
+}
+#enemy_8 #container {
+	background-image:url(images/charecters/elf_w_4.png);
+}
+#e8:checked ~ #enemy_8 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e8:checked ~ #enemy_8 .right {
+	-webkit-animation:right 0.5s ease;
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e8:checked ~ #enemy_8 #blood {opacity:1; top:10px; left:10px;}
+#e8:checked ~ #progress #p08 div {opacity:1;}
+
+/*--------------enemy_9-------------*/
+#enemy_9 {
+	top:220px; left:300px; z-index:9;
+	-webkit-animation:enemy_9 10s -3s ease-in-out infinite;
+	-moz-animation:enemy_9 10s -3s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_9 {
+      0% {top:220px; left:-60px;}
+	100% {top:220px; left:800px;}
+}
+@-moz-keyframes enemy_9 {
+      0% {top:220px; left:-60px;}
+	100% {top:220px; left:800px;}
+}
+#enemy_9 #container {
+	background-image:url(images/charecters/hum_m_1.png);
+}
+#e9:checked ~ #enemy_9 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e9:checked ~ #enemy_9 .right {
+	-webkit-animation:right 0.5s ease;
+	-webkit-transform:rotateZ(-90deg); 
+	-moz-animation:right 0.5s ease; 
+	-moz-transform:rotateZ(-90deg);
+}
+#e9:checked ~ #enemy_9 #blood {opacity:1; top:10px; left:10px;}
+#e9:checked ~ #progress #p09 div {opacity:1;}
+
+
+/*--------------enemy_10-------------*/
+#enemy_10 {
+	top:260px; left:300px; z-index:11;
+	-webkit-animation:enemy_10 12s -5s ease-in-out infinite;
+	-moz-animation:enemy_10 12s -5s ease-in-out infinite;	
+}
+@-webkit-keyframes enemy_10 {
+      0% {left:800px;}
+	100% {left:-60px;}
+}
+@-moz-keyframes enemy_10 {
+      0% {left:800px;}
+	100% {left:-60px;}
+}
+#enemy_10 #container {
+	background-image:url(images/charecters/hum_m_2.png);
+}
+#e10:checked ~ #enemy_10 {
+	-webkit-animation-play-state:paused; 
+	-moz-animation-play-state:paused;
+}
+#e10:checked ~ #enemy_10 .left {
+	-webkit-animation:left 0.5s ease;
+	-webkit-transform:rotateZ(90deg); 
+	-moz-animation:left 0.5s ease; 
+	-moz-transform:rotateZ(90deg);
+}
+#e10:checked ~ #enemy_10 #blood {opacity:1; top:30px; left:10px;}
+#e10:checked ~ #progress #p10 div {opacity:1;}
+
+#begin {
+	bottom:0;
+	height:100%;
+	width:100%;
+	background:rgba(0,0,0,.90);
+	z-index:17;
+	-webkit-animation:begin 1s 2s forwards linear;
+	-moz-animation:begin 1s 2s forwards linear;
+}
+@-webkit-keyframes begin {
+	from {bottom:0;}
+	to   {bottom:100%;}
+}
+@-moz-keyframes begin {
+	from {bottom:0;}
+	to   {bottom:100%;}
+}
+.name_1 {
+	width:100%;
+	text-align:center;
+	color:#900;
+	font-size:500%;
+	text-shadow:0 0 50px #F00;
+	margin:150px 0 0 0;
+}
+.name_2 {
+	width:100%;
+	text-align:center;
+	color:#999;
+	margin:0;	
+}
+#end {
+	bottom:100%;
+	height:100%;
+	width:100%;
+	background:rgba(0,0,0,.90);
+	z-index:17;
+	-webkit-animation:end 0.5s 18s forwards linear;
+	-moz-animation:end 0.5s 18s forwards linear;
+}
+@-webkit-keyframes end {
+	from {bottom:100%;}
+	to   {bottom:0;}
+}
+@-moz-keyframes end {
+	from {bottom:100%;}
+	to   {bottom:0;}
+}
+#end a {
+	display:inline-block;
+	color:#FFF;
+}
+</style>
+</head>
+
+<body>
+
+<div id="wrapper">
+ 
+	<div id="begin">
+    	<p class="name_1">Village</p>
+        <p class="name_2">angry heroes prod.</p>
+    </div>
+
+	<div id="end">
+    	<p class="name_1">Game Over</p>
+        <p class="name_2"><a href="index.html">Play again</a></p>
+    </div>
+    
+     
+    
+<!---------------Sky--------------->
+	<div id="sky_1"></div>
+    <div id="sky_2"></div>
+    <div id="sky_shadow"></div>
+    <div id="cloud_1"></div>
+    <div id="cloud_2"></div>
+    <div id="cloud_3"></div>
+    <div id="cloud_4"></div>
+    <div id="cloud_5"></div>
+    
+<!---------------Locations--------------->    
+	<div id="arena" class="loc"></div><!--4-->
+    <div id="tavern" class="loc"></div><!--6-->
+    <div id="guard" class="loc"></div><!--6-->
+    <div id="house_1" class="loc"></div><!--8-->
+    <div id="house_2" class="loc"></div><!--8-->
+    <div id="fountain" class="loc"></div><!--10-->
+    <div id="board" class="loc"></div><!--12-->
+    <div id="house_3" class="loc"></div><!--14-->
+    <div id="house_4" class="loc"></div><!--14-->
+    
+<!---------------Characters--------------->      
+	<input type="radio" id="e1" />
+    <input type="radio" id="e2" />
+    <input type="radio" id="e3" />
+    <input type="radio" id="e4" />
+    <input type="radio" id="e5" />
+    <input type="radio" id="e6" />
+    <input type="radio" id="e7" />
+    <input type="radio" id="e8" />
+    <input type="radio" id="e9" />
+    <input type="radio" id="e10" />
+    
+	<label for="e1" id="enemy_1" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label>  
+    
+	<label for="e2" id="enemy_2" class="enemys">
+    	<div id="container" class="left">
+        	<div id="blood"></div>
+        </div>
+    </label>
+    
+	<label for="e3" id="enemy_3" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label>   
+    
+	<label for="e4" id="enemy_4" class="enemys">
+    	<div id="container" class="left">
+        	<div id="blood"></div>
+        </div>
+    </label>  
+    
+	<label for="e5" id="enemy_5" class="enemys">
+    	<div id="container" class="left">
+        	<div id="blood"></div>
+        </div>
+    </label> 
+    
+	<label for="e6" id="enemy_6" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label>   
+    
+	<label for="e7" id="enemy_7" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label> 
+    
+	<label for="e8" id="enemy_8" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label> 
+    
+	<label for="e9" id="enemy_9" class="enemys">
+    	<div id="container" class="right">
+        	<div id="blood"></div>
+        </div>
+    </label>                                   
+    
+	<label for="e10" id="enemy_10" class="enemys">
+    	<div id="container" class="left">
+        	<div id="blood"></div>
+        </div>
+    </label>     
+
+<!---------------Progress--------------->  
+	<div id="progress">
+    	<span id="p01"><img src="images/faces/elf_m_1.png" /><div></div></span>
+        <span id="p02"><img src="images/faces/elf_m_2.png" /><div></div></span>
+        <span id="p03"><img src="images/faces/elf_m_3.png" /><div></div></span>
+        <span id="p04"><img src="images/faces/elf_m_4.png" /><div></div></span>
+        <span id="p05"><img src="images/faces/elf_w_1.png" /><div></div></span>
+        <span id="p06"><img src="images/faces/elf_w_2.png" /><div></div></span>
+        <span id="p07"><img src="images/faces/elf_w_3.png" /><div></div></span>
+        <span id="p08"><img src="images/faces/elf_w_4.png" /><div></div></span>
+        <span id="p09"><img src="images/faces/hum_m_1.png" /><div></div></span>
+        <span id="p10"><img src="images/faces/hum_m_2.png" /><div></div></span>
+        <h1>Time:</h1>
+        <div id="timer">
+        	<div></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
